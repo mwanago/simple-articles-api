@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { ArticleDto } from './article.dto';
@@ -15,8 +16,8 @@ export default class ArticlesController {
   constructor(private readonly articlesService: ArticlesService) {}
 
   @Get()
-  getAll() {
-    return this.articlesService.getAll();
+  getAll(@Query('sortBy') sortBy: string) {
+    return this.articlesService.getAll(sortBy);
   }
 
   @Get(':id')

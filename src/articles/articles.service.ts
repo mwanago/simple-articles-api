@@ -23,7 +23,14 @@ export class ArticlesService {
     return matchingArticle === undefined;
   }
 
-  getAll() {
+  getAll(sortBy: string) {
+    if (sortBy === 'contentLength') {
+      return this.database.data.articles.toSorted(
+        (firstArticle, secondArticle) => {
+          return secondArticle.content.length - firstArticle.content.length;
+        },
+      );
+    }
     return this.database.data.articles;
   }
 
