@@ -5,10 +5,11 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { Article } from './article';
-import { ArticleDto } from './article.dto';
+import { CreateArticleDto } from './dto/create-article.dto';
 // @ts-expect-error The lowdb library is an ESM library and this project is a CommonJS project
 import type { Low } from 'lowdb';
 import { v4 as uuid } from 'uuid';
+import { ReplaceArticleDto } from './dto/replace-article.dto';
 
 @Injectable()
 export class ArticlesService {
@@ -46,7 +47,7 @@ export class ArticlesService {
     throw new NotFoundException();
   }
 
-  async update(id: string, article: ArticleDto) {
+  async replace(id: string, article: ReplaceArticleDto) {
     const articleIndex = this.database.data.articles.findIndex(
       (article) => article.id === id,
     );
@@ -65,7 +66,7 @@ export class ArticlesService {
     return this.database.data.articles[articleIndex];
   }
 
-  async create(article: ArticleDto) {
+  async create(article: CreateArticleDto) {
     if (!this.isTitleAvailable(article.title)) {
       throw new ConflictException('Article with this title already exists');
     }

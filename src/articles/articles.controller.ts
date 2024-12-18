@@ -9,7 +9,8 @@ import {
   Query,
 } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
-import { ArticleDto } from './article.dto';
+import { CreateArticleDto } from './dto/create-article.dto';
+import { ReplaceArticleDto } from './dto/replace-article.dto';
 
 @Controller('articles')
 export default class ArticlesController {
@@ -26,13 +27,13 @@ export default class ArticlesController {
   }
 
   @Post()
-  create(@Body() article: ArticleDto) {
+  create(@Body() article: CreateArticleDto) {
     return this.articlesService.create(article);
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() article: ArticleDto) {
-    return this.articlesService.update(id, article);
+  replace(@Param('id') id: string, @Body() article: ReplaceArticleDto) {
+    return this.articlesService.replace(id, article);
   }
 
   @Delete(':id')

@@ -1,8 +1,8 @@
 import { IsString, IsNotEmpty } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { CanBeUndefined } from '../utilities/can-be-undefined';
+import { CanBeUndefined } from '../../utilities/can-be-undefined';
 
-export class ArticleDto {
+export class CreateArticleDto {
   @IsNotEmpty()
   @ApiProperty()
   title: string;
