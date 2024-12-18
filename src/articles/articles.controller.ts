@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Put,
   Query,
@@ -11,6 +12,7 @@ import {
 import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { ReplaceArticleDto } from './dto/replace-article.dto';
+import { PatchArticleDto } from './dto/patch-article.dto';
 
 @Controller('articles')
 export default class ArticlesController {
@@ -34,6 +36,11 @@ export default class ArticlesController {
   @Put(':id')
   replace(@Param('id') id: string, @Body() article: ReplaceArticleDto) {
     return this.articlesService.replace(id, article);
+  }
+
+  @Patch(':id')
+  patch(@Param('id') id: string, @Body() article: PatchArticleDto) {
+    return this.articlesService.patch(id, article);
   }
 
   @Delete(':id')

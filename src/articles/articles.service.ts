@@ -10,6 +10,7 @@ import { CreateArticleDto } from './dto/create-article.dto';
 import type { Low } from 'lowdb';
 import { v4 as uuid } from 'uuid';
 import { ReplaceArticleDto } from './dto/replace-article.dto';
+import { PatchArticleDto } from './dto/patch-article.dto';
 
 @Injectable()
 export class ArticlesService {
@@ -64,6 +65,27 @@ export class ArticlesService {
     };
     await this.database.write();
     return this.database.data.articles[articleIndex];
+  }
+
+  async patch(id: string, article: PatchArticleDto) {
+    const articleIndex = this.database.data.articles.findIndex(
+      (article) => article.id === id,
+    );
+    if (articleIndex === -1) {
+      throw new NotFoundException();
+    }
+    if (!this.isTitleAvailable(article.title, id)) {
+      throw new ConflictException('Article with this title already exists');
+    }
+    const articleToPatch = this.database.data.articles[articleIndex];
+    if (article.title !== undefined) {
+      articleToPatch.title = article.title;
+    }
+    if (article.content !== undefined) {
+      articleToPatch.content = article.content;
+    }
+    await this.database.write();
+    return articleToPatch;
   }
 
   async create(article: CreateArticleDto) {
