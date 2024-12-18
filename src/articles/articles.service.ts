@@ -27,7 +27,9 @@ export class ArticlesService {
     if (sortBy === 'contentLength') {
       return this.database.data.articles.toSorted(
         (firstArticle, secondArticle) => {
-          return secondArticle.content.length - firstArticle.content.length;
+          const firstArticleLength = firstArticle.content?.length ?? 0;
+          const secondArticleLength = secondArticle?.content?.length ?? 0;
+          return secondArticleLength - firstArticleLength;
         },
       );
     }
